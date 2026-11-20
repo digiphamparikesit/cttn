@@ -121,6 +121,35 @@
             50% { opacity: 0.3; }
         }
 
+        /* Kotak Pencarian */
+        .search-container {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+
+        .search-container input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #6aa5d9;
+            box-shadow: 0 0 10px rgba(106, 165, 217, 0.3);
+        }
+
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         .action-bar {
             display: flex;
             justify-content: space-between;
@@ -582,6 +611,11 @@
         </div>
     </header>
 
+    <!-- FITUR PENCARIAN BARU -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="🔍 Cari judul, isi catatan, atau asal informasi...">
+    </div>
+
     <div class="action-bar">
         <button class="btn btn-primary" id="refreshBtn">
             <span class="btn-icon">
@@ -681,6 +715,7 @@
     let notesData = [];
     let isEditing = false;
     let isAdmin = sessionStorage.getItem(SESSION_KEY) === 'true';
+    let searchQuery = ''; // Variabel untuk menyimpan kata kunci pencarian
 
     // DOM
     const notesGrid = document.getElementById('notesGrid');
@@ -704,6 +739,7 @@
     const submitPwBtn = document.getElementById('submitPwBtn');
     const cancelPwBtn = document.getElementById('cancelPwBtn');
     const togglePw = document.getElementById('togglePw');
+    const searchInput = document.getElementById('searchInput'); // DOM Pencarian
 
     // ============================================================
     // ADMIN AUTH
@@ -743,7 +779,6 @@
     }
 
     function updateEyeIcon(show) {
-        // show=true artinya password terlihat
         document.getElementById('eyeIcon').innerHTML = show
             ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>'
             : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
@@ -848,20 +883,23 @@
                 closeModal();
                 return { success: true };
             }
+            
             const payload = {
                 action: isEditing ? 'update' : 'create',
                 id: noteData.id || '',
                 judul: noteData.judul,
                 isi: noteData.isi,
                 link: noteData.link,
-                asal: noteData.asal,
-                password: ADMIN_PASSWORD 
+                asal: noteData.asal,               // Koma sudah diperbaiki
+                password: ADMIN_PASSWORD           // Password sudah ditambahkan
             };
+            
             const response = await fetch(SHEET_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // ✅ Tambahkan ini
-            body: JSON.stringify(payload)
-        });
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Header ditambahkan
+                body: JSON.stringify(payload)
+            });
+            
             if (!response.ok) throw new Error('Gagal menyimpan');
             const result = await response.json();
             if (result.success === false) throw new Error(result.message || 'Gagal menyimpan');
@@ -876,24 +914,27 @@
     }
 
     async function deleteNote(id) {
-    if (!confirm('Yakin ingin menghapus catatan ini?')) return;
-    try {
-        if (!SHEET_API_URL || SHEET_API_URL.includes('GANTI_DENGAN_URL')) {
-            notesData = notesData.filter(n => n.id !== id);
-            renderNotes();
-            return;
-        }
-        const payload = {
-            action: 'delete',
-            id: id,
-            password: ADMIN_PASSWORD
-        };
-        const response = await fetch(SHEET_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Gagal menghapus');
+        if (!confirm('Yakin ingin menghapus catatan ini?')) return;
+        try {
+            if (!SHEET_API_URL || SHEET_API_URL.includes('GANTI_DENGAN_URL')) {
+                notesData = notesData.filter(n => n.id !== id);
+                renderNotes();
+                return;
+            }
+            
+            const payload = {
+                action: 'delete',
+                id: id,
+                password: ADMIN_PASSWORD           // Password sudah ditambahkan
+            };
+            
+            const response = await fetch(SHEET_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Header ditambahkan
+                body: JSON.stringify(payload)
+            });
+            
+            if (!response.ok) throw new Error('Gagal menghapus');
             const result = await response.json();
             if (result.success === false) throw new Error(result.message || 'Gagal menghapus');
             await fetchNotes();
@@ -903,14 +944,30 @@
     }
 
     // ============================================================
-    // RENDER
+    // RENDER (DENGAN FITUR PENCARIAN)
     // ============================================================
     function renderNotes() {
-        if (!notesData || notesData.length === 0) {
-            notesGrid.innerHTML = '<div class="loading">Belum ada catatan. Klik logo untuk akses admin dan tambahkan catatan.</div>';
+        // 1. Filter data berdasarkan pencarian
+        const filteredNotes = notesData.filter(note => {
+            const q = searchQuery.toLowerCase();
+            const judul = (note.judul || '').toLowerCase();
+            const isi = (note.isi || '').toLowerCase();
+            const asal = (note.asal || '').toLowerCase();
+            return judul.includes(q) || isi.includes(q) || asal.includes(q);
+        });
+
+        // 2. Jika data kosong atau tidak ketemu
+        if (!filteredNotes || filteredNotes.length === 0) {
+            if (searchQuery) {
+                notesGrid.innerHTML = `<div class="loading">Tidak ada catatan yang cocok dengan pencarian "${escapeHtml(searchQuery)}".</div>`;
+            } else {
+                notesGrid.innerHTML = '<div class="loading">Belum ada catatan. Klik logo untuk akses admin dan tambahkan catatan.</div>';
+            }
             return;
         }
-        notesGrid.innerHTML = notesData.map((note, index) => {
+
+        // 3. Tampilkan data yang sudah difilter
+        notesGrid.innerHTML = filteredNotes.map((note, index) => {
             const linkHtml = note.link
                 ? `<a href="${escapeHtml(note.link)}" target="_blank" rel="noopener noreferrer" class="note-link">${escapeHtml(truncate(note.link, 40))}</a>`
                 : '<span style="opacity:0.5;">-</span>';
@@ -1038,6 +1095,12 @@
 
     isiInput.addEventListener('input', updateCharCount);
 
+    // Listener untuk kotak pencarian
+    searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderNotes();
+    });
+
     noteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!isAdmin) { openPasswordModal(); return; }
@@ -1066,70 +1129,6 @@
     // ============================================================
     setAdminMode(isAdmin);
     fetchNotes();
-
-    /*
-    ============================================================
-    CATATAN PENTING: SETUP GOOGLE SHEETS
-    ============================================================
-    Header baris 1:  id | judul | isi | link | asal
-
-    Kode Apps Script (paste di Extensions > Apps Script):
-
-    function doGet(e) {
-        const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-        const data = sheet.getDataRange().getValues();
-        return ContentService.createTextOutput(JSON.stringify(data))
-            .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    function doPost(e) {
-        try {
-            const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-            const params = JSON.parse(e.postData.contents);
-            const action = params.action;
-
-            if (action === 'create') {
-                const newId = Utilities.getUuid();
-                sheet.appendRow([newId, params.judul, params.isi, params.link, params.asal]);
-                return ContentService.createTextOutput(JSON.stringify({success: true, id: newId}))
-                    .setMimeType(ContentService.MimeType.JSON);
-            } else if (action === 'update') {
-                const data = sheet.getDataRange().getValues();
-                for (let i = 1; i < data.length; i++) {
-                    if (String(data[i][0]) === String(params.id)) {
-                        sheet.getRange(i+1, 2).setValue(params.judul);
-                        sheet.getRange(i+1, 3).setValue(params.isi);
-                        sheet.getRange(i+1, 4).setValue(params.link);
-                        sheet.getRange(i+1, 5).setValue(params.asal);
-                        return ContentService.createTextOutput(JSON.stringify({success: true}))
-                            .setMimeType(ContentService.MimeType.JSON);
-                    }
-                }
-                return ContentService.createTextOutput(JSON.stringify({success: false, message: 'Data tidak ditemukan'}))
-                    .setMimeType(ContentService.MimeType.JSON);
-            } else if (action === 'delete') {
-                const data = sheet.getDataRange().getValues();
-                for (let i = 1; i < data.length; i++) {
-                    if (String(data[i][0]) === String(params.id)) {
-                        sheet.deleteRow(i+1);
-                        return ContentService.createTextOutput(JSON.stringify({success: true}))
-                            .setMimeType(ContentService.MimeType.JSON);
-                    }
-                }
-                return ContentService.createTextOutput(JSON.stringify({success: false, message: 'Data tidak ditemukan'}))
-                    .setMimeType(ContentService.MimeType.JSON);
-            }
-            return ContentService.createTextOutput(JSON.stringify({success: false, message: 'Aksi tidak dikenal'}))
-                .setMimeType(ContentService.MimeType.JSON);
-        } catch(err) {
-            return ContentService.createTextOutput(JSON.stringify({success: false, message: err.toString()}))
-                .setMimeType(ContentService.MimeType.JSON);
-        }
-    }
-
-    Deploy: Deploy > New deployment > Web app > Execute as: Me > Access: Anyone
-    Copy URL Web App → ganti SHEET_API_URL di atas.
-    */
 </script>
 
 </body>
