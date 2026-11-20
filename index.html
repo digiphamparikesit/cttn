@@ -858,7 +858,7 @@
             };
             const response = await fetch(SHEET_API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+               
                 body: JSON.stringify(payload)
             });
             if (!response.ok) throw new Error('Gagal menyimpan');
@@ -885,7 +885,7 @@
             const payload = { action: 'delete', id: id };
             const response = await fetch(SHEET_API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                
                 body: JSON.stringify(payload)
             });
             if (!response.ok) throw new Error('Gagal menghapus');
