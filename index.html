@@ -17,7 +17,6 @@
             background: linear-gradient(135deg, #0b1a2e 0%, #1b3b5c 50%, #2e5f8a 100%);
             background-attachment: fixed;
             color: #eef4fc;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,17 +25,31 @@
         .app-container {
             width: 100%;
             max-width: 1200px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 24px;
         }
 
+        /* =========================================
+           HEADER STICKY (MENEMPEL DI ATAS)
+           ========================================= */
         .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 12px 0 8px 0;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 16px 20px;
+            background: rgba(20, 40, 65, 0.85); /* Warna dasar gelap transparan */
+            backdrop-filter: blur(12px); /* Efek kaca blur */
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 0 0 20px 20px;
+            margin: -20px -20px 0 -20px; /* Tarik ke ujung layar */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
         .logo {
@@ -66,16 +79,11 @@
             transition: fill 0.2s;
         }
 
-        .logo:hover svg {
-            fill: #ffffff;
-        }
-
-        .logo.unlocked svg {
-            fill: #7dffb0;
-        }
+        .logo:hover svg { fill: #ffffff; }
+        .logo.unlocked svg { fill: #7dffb0; }
 
         .header-title h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 600;
             letter-spacing: 0.5px;
             color: #ffffff;
@@ -83,12 +91,11 @@
         }
 
         .header-title p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.8;
             margin-top: 4px;
         }
 
-        /* Status admin badge */
         .admin-badge {
             display: none;
             align-items: center;
@@ -103,9 +110,7 @@
             margin-left: auto;
         }
 
-        .admin-badge.show {
-            display: inline-flex;
-        }
+        .admin-badge.show { display: inline-flex; }
 
         .admin-badge .dot {
             width: 8px;
@@ -119,35 +124,6 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
-        }
-
-        /* Kotak Pencarian */
-        .search-container {
-            width: 100%;
-            margin-bottom: 8px;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            font-size: 1rem;
-            outline: none;
-            backdrop-filter: blur(4px);
-            transition: all 0.2s ease;
-        }
-
-        .search-container input:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #6aa5d9;
-            box-shadow: 0 0 10px rgba(106, 165, 217, 0.3);
-        }
-
-        .search-container input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
         }
 
         .action-bar {
@@ -181,18 +157,14 @@
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
         }
 
-        .btn:active {
-            transform: translateY(0);
-        }
+        .btn:active { transform: translateY(0); }
 
         .btn-primary {
             background: #4a8bc2;
             border-color: #6aa5d9;
         }
 
-        .btn-primary:hover {
-            background: #5f9ed6;
-        }
+        .btn-primary:hover { background: #5f9ed6; }
 
         .btn:disabled {
             opacity: 0.5;
@@ -206,14 +178,8 @@
             fill: currentColor;
         }
 
-        /* Tombol tambah - hanya muncul jika admin */
-        #addNoteBtn {
-            display: none;
-        }
-
-        #addNoteBtn.visible {
-            display: inline-flex;
-        }
+        #addNoteBtn { display: none; }
+        #addNoteBtn.visible { display: inline-flex; }
 
         .notes-grid {
             display: grid;
@@ -279,7 +245,7 @@
             margin-bottom: 14px;
             word-break: break-word;
             white-space: pre-wrap;
-            max-height: 780px;
+            max-height: 170px;
             overflow-y: auto;
             padding-right: 6px;
             scrollbar-width: thin;
@@ -337,9 +303,7 @@
             display: none;
         }
 
-        .note-actions.visible {
-            display: flex;
-        }
+        .note-actions.visible { display: flex; }
 
         .btn-small {
             background: rgba(255, 255, 255, 0.1);
@@ -352,20 +316,56 @@
             transition: all 0.15s;
         }
 
-        .btn-small:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
+        .btn-small:hover { background: rgba(255, 255, 255, 0.25); }
 
         .btn-danger {
             background: rgba(220, 80, 80, 0.25);
             border-color: rgba(255, 120, 120, 0.4);
         }
 
-        .btn-danger:hover {
-            background: rgba(220, 80, 80, 0.5);
+        .btn-danger:hover { background: rgba(220, 80, 80, 0.5); }
+
+        /* =========================================
+           PAGINATION (NAVIGASI HALAMAN)
+           ========================================= */
+        .pagination-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding-bottom: 40px;
         }
 
-        /* Modal umum */
+        .page-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .page-btn.active {
+            background: #4a8bc2;
+            border-color: #6aa5d9;
+            font-weight: 700;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Modal & Form */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -381,9 +381,7 @@
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal {
             background: linear-gradient(145deg, #1f3854, #152b40);
@@ -406,7 +404,6 @@
             color: #ffffff;
         }
 
-        /* Modal password - lebih kecil */
         .modal-password {
             max-width: 400px;
             text-align: center;
@@ -424,28 +421,11 @@
             border: 1px solid rgba(120, 180, 255, 0.3);
         }
 
-        .modal-password .lock-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: #8dc9ff;
-        }
+        .modal-password .lock-icon svg { width: 30px; height: 30px; fill: #8dc9ff; }
+        .modal-password h2 { text-align: center; font-size: 1.35rem; margin-bottom: 8px; }
+        .modal-password p { text-align: center; font-size: 0.88rem; opacity: 0.75; margin-bottom: 22px; }
 
-        .modal-password h2 {
-            text-align: center;
-            font-size: 1.35rem;
-            margin-bottom: 8px;
-        }
-
-        .modal-password p {
-            text-align: center;
-            font-size: 0.88rem;
-            opacity: 0.75;
-            margin-bottom: 22px;
-        }
-
-        .password-input-wrap {
-            position: relative;
-        }
+        .password-input-wrap { position: relative; }
 
         .password-input-wrap input {
             width: 100%;
@@ -482,15 +462,8 @@
             transition: background 0.2s;
         }
 
-        .toggle-pw:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .toggle-pw svg {
-            width: 20px;
-            height: 20px;
-            fill: #8dc9ff;
-        }
+        .toggle-pw:hover { background: rgba(255, 255, 255, 0.1); }
+        .toggle-pw svg { width: 20px; height: 20px; fill: #8dc9ff; }
 
         .pw-error {
             color: #ff9999;
@@ -502,14 +475,9 @@
             transition: opacity 0.2s;
         }
 
-        .pw-error.show {
-            opacity: 1;
-        }
+        .pw-error.show { opacity: 1; }
 
-        /* Form */
-        .form-group {
-            margin-bottom: 18px;
-        }
+        .form-group { margin-bottom: 18px; }
 
         .form-group label {
             display: block;
@@ -540,10 +508,7 @@
             background: rgba(255, 255, 255, 0.12);
         }
 
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
 
         .char-counter {
             text-align: right;
@@ -559,9 +524,7 @@
             margin-top: 24px;
         }
 
-        .modal-actions .btn {
-            padding: 10px 26px;
-        }
+        .modal-actions .btn { padding: 10px 26px; }
 
         .loading, .error-msg {
             text-align: center;
@@ -584,17 +547,18 @@
         }
 
         @media (max-width: 600px) {
-            .header-title h1 { font-size: 1.4rem; }
+            .header-title h1 { font-size: 1.3rem; }
             .notes-grid { grid-template-columns: 1fr; }
             .modal { padding: 24px 18px; }
             .btn { padding: 8px 16px; font-size: 0.85rem; }
-            .admin-badge { font-size: 0.7rem; padding: 4px 10px; }
+            .admin-badge { display: none !important; } /* Sembunyikan badge di HP agar tidak sesak */
         }
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- HEADER STICKY -->
     <header class="header">
         <div class="logo" id="secretLogo" title="Klik untuk akses admin">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -602,19 +566,14 @@
             </svg>
         </div>
         <div class="header-title">
-            <h1>Catatan Dokumen & Informasi</h1>
-            <p>Kumpulan dokumen & catatan penting</p>
+            <h1>Catatan Dokumen</h1>
+            <p>Kumpulan informasi penting</p>
         </div>
         <div class="admin-badge" id="adminBadge">
             <span class="dot"></span>
             <span>Mode Admin</span>
         </div>
     </header>
-
-    <!-- FITUR PENCARIAN BARU -->
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="🔍 Cari judul, isi catatan, atau asal informasi...">
-    </div>
 
     <div class="action-bar">
         <button class="btn btn-primary" id="refreshBtn">
@@ -631,14 +590,13 @@
         </button>
     </div>
 
+    <!-- GRID CATATAN & PAGINATION -->
     <div class="notes-grid" id="notesGrid">
-        <div class="loading">Memuat data dari Google Sheets...</div>
+        <div class="loading">Memuat data...</div>
     </div>
 </div>
 
-<!-- ============================== -->
-<!-- MODAL PASSWORD                 -->
-<!-- ============================== -->
+<!-- MODAL PASSWORD -->
 <div class="modal-overlay" id="passwordOverlay">
     <div class="modal modal-password">
         <div class="lock-icon">
@@ -664,9 +622,7 @@
     </div>
 </div>
 
-<!-- ============================== -->
-<!-- MODAL FORM CATATAN             -->
-<!-- ============================== -->
+<!-- MODAL FORM CATATAN -->
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
         <h2 id="modalTitle">Tambah Catatan Baru</h2>
@@ -701,12 +657,8 @@
     // ============================================================
     // KONFIGURASI
     // ============================================================
-    const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbyQ-O5uUJgo7bmI0TwRp3FXrt9c7V8zNSwcWzo4jZ2FOOtuox7ST3b6mP3rSOPAOLIm/exec';
-
-    // Password admin — UBAH jika perlu
+    const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbxGANTI_DENGAN_URL_ANDA/exec';
     const ADMIN_PASSWORD = 'farmasi';
-
-    // Session key agar tidak perlu password ulang saat refresh
     const SESSION_KEY = 'notes_admin_session';
 
     // ============================================================
@@ -715,7 +667,10 @@
     let notesData = [];
     let isEditing = false;
     let isAdmin = sessionStorage.getItem(SESSION_KEY) === 'true';
-    let searchQuery = ''; // Variabel untuk menyimpan kata kunci pencarian
+    
+    // State Pagination
+    let currentPage = 1;
+    const notesPerPage = 5; // <-- Anda bisa ubah angka ini jika ingin lebih/kurang dari 5
 
     // DOM
     const notesGrid = document.getElementById('notesGrid');
@@ -739,7 +694,6 @@
     const submitPwBtn = document.getElementById('submitPwBtn');
     const cancelPwBtn = document.getElementById('cancelPwBtn');
     const togglePw = document.getElementById('togglePw');
-    const searchInput = document.getElementById('searchInput'); // DOM Pencarian
 
     // ============================================================
     // ADMIN AUTH
@@ -757,7 +711,6 @@
             secretLogo.classList.remove('unlocked');
             addNoteBtn.classList.remove('visible');
         }
-        // Update tombol edit/hapus di setiap kartu
         document.querySelectorAll('.note-actions').forEach(el => {
             el.classList.toggle('visible', active);
         });
@@ -789,6 +742,7 @@
         if (input === ADMIN_PASSWORD) {
             setAdminMode(true);
             closePasswordModal();
+            renderNotes(); // Render ulang untuk memunculkan tombol edit
         } else {
             pwError.textContent = 'Password salah! Coba lagi.';
             pwError.classList.add('show');
@@ -798,7 +752,7 @@
     }
 
     // ============================================================
-    // FETCH DATA
+    // FETCH DATA (GET)
     // ============================================================
     function parseSheetData(rows) {
         if (!rows || !Array.isArray(rows)) return [];
@@ -826,6 +780,9 @@
             if (Array.isArray(data)) notesData = parseSheetData(data);
             else if (data && data.data) notesData = parseSheetData(data.data);
             else notesData = [];
+            
+            // Kembalikan ke halaman 1 setiap kali data di-refresh
+            currentPage = 1; 
             renderNotes();
         } catch (error) {
             console.error('Error:', error);
@@ -840,33 +797,22 @@
     }
 
     function getDemoData() {
-        return [
-            {
-                rowIndex: 2, id: '1',
-                judul: 'Dokumen Rapat Koordinasi',
-                isi: 'Teks salinan dari WA: Mohon hadir rapat koordinasi hari Senin pukul 09.00 di ruang rapat utama. Membahas persiapan acara tahunan.',
-                link: 'https://drive.google.com/file/d/contoh1',
-                asal: 'Grup WA Kantor'
-            },
-            {
-                rowIndex: 3, id: '2',
-                judul: 'Template Laporan Bulanan',
-                isi: 'Salinan dari Telegram: Format laporan bulanan terbaru sudah diunggah. Silakan gunakan template ini untuk laporan periode Juli.',
-                link: 'https://docs.google.com/spreadsheets/contoh2',
-                asal: 'Telegram Tim'
-            },
-            {
-                rowIndex: 4, id: '3',
-                judul: 'Info Jadwal Pemeliharaan',
-                isi: 'Pesan grup: Pemeliharaan server akan dilakukan Sabtu malam pukul 22.00 - 02.00. Layanan mungkin tidak tersedia sementara.',
-                link: 'https://status.contoh.com',
-                asal: 'Grup WA IT Support'
-            }
-        ];
+        // Data dummy untuk demo jika URL belum diset
+        let dummy = [];
+        for(let i=1; i<=12; i++) {
+            dummy.push({
+                rowIndex: i+1, id: 'demo'+i,
+                judul: 'Catatan Demo ke-' + i,
+                isi: 'Ini adalah isi catatan percobaan ke-' + i + '. Pagination akan bekerja jika data lebih dari 5.',
+                link: 'https://contoh.com/' + i,
+                asal: 'Sistem'
+            });
+        }
+        return dummy;
     }
 
     // ============================================================
-    // SAVE / DELETE
+    // SAVE & DELETE (POST)
     // ============================================================
     async function saveNote(noteData) {
         try {
@@ -876,30 +822,26 @@
                     if (idx !== -1) notesData[idx] = { ...notesData[idx], ...noteData };
                 } else {
                     noteData.id = Date.now().toString();
-                    noteData.rowIndex = notesData.length + 2;
-                    notesData.push(noteData);
+                    notesData.unshift(noteData); // Tambah di paling atas
                 }
-                renderNotes();
                 closeModal();
+                renderNotes();
                 return { success: true };
             }
             
             const payload = {
                 action: isEditing ? 'update' : 'create',
+                password: ADMIN_PASSWORD,
                 id: noteData.id || '',
                 judul: noteData.judul,
                 isi: noteData.isi,
                 link: noteData.link,
-                asal: noteData.asal,               // Koma sudah diperbaiki
-                password: ADMIN_PASSWORD           // Password sudah ditambahkan
+                asal: noteData.asal
             };
-            
             const response = await fetch(SHEET_API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Header ditambahkan
                 body: JSON.stringify(payload)
             });
-            
             if (!response.ok) throw new Error('Gagal menyimpan');
             const result = await response.json();
             if (result.success === false) throw new Error(result.message || 'Gagal menyimpan');
@@ -918,22 +860,17 @@
         try {
             if (!SHEET_API_URL || SHEET_API_URL.includes('GANTI_DENGAN_URL')) {
                 notesData = notesData.filter(n => n.id !== id);
+                // Cek jika halaman saat ini jadi kosong setelah dihapus
+                const totalPages = Math.ceil(notesData.length / notesPerPage);
+                if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
                 renderNotes();
                 return;
             }
-            
-            const payload = {
-                action: 'delete',
-                id: id,
-                password: ADMIN_PASSWORD           // Password sudah ditambahkan
-            };
-            
+            const payload = { action: 'delete', password: ADMIN_PASSWORD, id: id };
             const response = await fetch(SHEET_API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Header ditambahkan
                 body: JSON.stringify(payload)
             });
-            
             if (!response.ok) throw new Error('Gagal menghapus');
             const result = await response.json();
             if (result.success === false) throw new Error(result.message || 'Gagal menghapus');
@@ -944,34 +881,35 @@
     }
 
     // ============================================================
-    // RENDER (DENGAN FITUR PENCARIAN)
+    // RENDER & PAGINATION LOGIC
     // ============================================================
     function renderNotes() {
-        // 1. Filter data berdasarkan pencarian
-        const filteredNotes = notesData.filter(note => {
-            const q = searchQuery.toLowerCase();
-            const judul = (note.judul || '').toLowerCase();
-            const isi = (note.isi || '').toLowerCase();
-            const asal = (note.asal || '').toLowerCase();
-            return judul.includes(q) || isi.includes(q) || asal.includes(q);
-        });
-
-        // 2. Jika data kosong atau tidak ketemu
-        if (!filteredNotes || filteredNotes.length === 0) {
-            if (searchQuery) {
-                notesGrid.innerHTML = `<div class="loading">Tidak ada catatan yang cocok dengan pencarian "${escapeHtml(searchQuery)}".</div>`;
-            } else {
-                notesGrid.innerHTML = '<div class="loading">Belum ada catatan. Klik logo untuk akses admin dan tambahkan catatan.</div>';
-            }
+        if (!notesData || notesData.length === 0) {
+            notesGrid.innerHTML = '<div class="loading">Belum ada catatan. Klik logo untuk akses admin dan tambahkan catatan.</div>';
             return;
         }
 
-        // 3. Tampilkan data yang sudah difilter
-        notesGrid.innerHTML = filteredNotes.map((note, index) => {
+        // 1. Hitung Index untuk Pagination
+        const totalPages = Math.ceil(notesData.length / notesPerPage);
+        
+        // Pastikan currentPage tidak melebihi total halaman
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        const startIndex = (currentPage - 1) * notesPerPage;
+        const endIndex = startIndex + notesPerPage;
+        
+        // 2. Ambil 5 data untuk halaman saat ini
+        const currentNotes = notesData.slice(startIndex, endIndex);
+
+        // 3. Render Kartu Catatan
+        let html = currentNotes.map((note, index) => {
             const linkHtml = note.link
                 ? `<a href="${escapeHtml(note.link)}" target="_blank" rel="noopener noreferrer" class="note-link">${escapeHtml(truncate(note.link, 40))}</a>`
                 : '<span style="opacity:0.5;">-</span>';
             const actionsClass = isAdmin ? 'visible' : '';
+            
+            // Animasi stagger (muncul bergantian)
             return `
                 <div class="note-card" style="animation-delay: ${index * 0.05}s">
                     <div class="note-header">
@@ -996,7 +934,40 @@
                 </div>
             `;
         }).join('');
+
+        // 4. Render Tombol Pagination (Jika lebih dari 1 halaman)
+        if (totalPages > 1) {
+            html += `<div class="pagination-container">`;
+            
+            // Tombol Prev
+            html += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>« Sebelumnya</button>`;
+            
+            // Nomor Halaman
+            for (let i = 1; i <= totalPages; i++) {
+                // Jika halaman banyak, batasi tampilan (misal max 5 tombol)
+                if (totalPages > 5 && Math.abs(currentPage - i) > 1 && i !== 1 && i !== totalPages) {
+                    if (i === 2 || i === totalPages - 1) html += `<span style="color:white; padding:0 5px;">...</span>`;
+                    continue;
+                }
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            
+            // Tombol Next
+            html += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Berikutnya »</button>`;
+            
+            html += `</div>`;
+        }
+
+        notesGrid.innerHTML = html;
     }
+
+    // Fungsi Ganti Halaman
+    window.changePage = function(page) {
+        currentPage = page;
+        renderNotes();
+        // Scroll ke atas dengan halus saat ganti halaman
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     function escapeHtml(str) {
         if (!str) return '';
@@ -1014,10 +985,7 @@
     // MODAL FORM
     // ============================================================
     function openModal(note = null) {
-        if (!isAdmin) {
-            openPasswordModal();
-            return;
-        }
+        if (!isAdmin) { openPasswordModal(); return; }
         isEditing = !!note;
         modalTitle.textContent = isEditing ? 'Edit Catatan' : 'Tambah Catatan Baru';
         if (note) {
@@ -1061,8 +1029,10 @@
     // ============================================================
     secretLogo.addEventListener('click', () => {
         if (isAdmin) {
-            // Sudah login → langsung logout
-            if (confirm('Keluar dari mode admin?')) setAdminMode(false);
+            if (confirm('Keluar dari mode admin?')) {
+                setAdminMode(false);
+                renderNotes(); // Sembunyikan tombol
+            }
         } else {
             openPasswordModal();
         }
@@ -1085,7 +1055,6 @@
         updateEyeIcon(show);
     });
 
-    // Klik overlay menutup modal
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
@@ -1095,12 +1064,6 @@
 
     isiInput.addEventListener('input', updateCharCount);
 
-    // Listener untuk kotak pencarian
-    searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value;
-        renderNotes();
-    });
-
     noteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!isAdmin) { openPasswordModal(); return; }
@@ -1108,6 +1071,8 @@
         const judul = judulInput.value.trim();
         const isi = isiInput.value.trim();
         if (!judul || !isi) { alert('Judul dan isi harus diisi!'); return; }
+        
+        // Validasi panjang karakter
         if (isi.length > 5000) { alert('Isi maksimal 5000 karakter!'); return; }
 
         const noteData = {
