@@ -23,13 +23,13 @@
         }
 
         .app-container {
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    width: 100%;
+    /* max-width dihapus agar mentok layar */
+    padding: 0; /* Padding dihapus agar menempel ke dinding layar */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
         /* HEADER STICKY */
         .header {
@@ -126,12 +126,15 @@
 
         /* ACTION BAR & PENCARIAN */
         .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0 20px; /* <-- TAMBAHKAN INI */
+    margin-top: 20px; /* Beri jarak dari header */
+   }
+
 
         .search-container {
             flex: 1;
@@ -225,6 +228,7 @@
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 20px;
             width: 100%;
+            padding: 0 20px;
         }
 
         .note-card {
