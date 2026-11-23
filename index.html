@@ -22,16 +22,16 @@
             align-items: center;
         }
 
+        /* FULL WIDTH CONTAINER */
         .app-container {
-    width: 100%;
-    /* max-width dihapus agar mentok layar */
-    padding: 0; /* Padding dihapus agar menempel ke dinding layar */
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+            width: 100%;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-        /* HEADER STICKY */
+        /* HEADER STICKY FULL WIDTH */
         .header {
             position: sticky;
             top: 0;
@@ -39,13 +39,13 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px 20px;
+            padding: 16px 24px;
             background: rgba(20, 40, 65, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 0 0 20px 20px;
-            margin: -20px -20px 0 -20px;
+            border-radius: 0;
+            margin: 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
@@ -126,15 +126,14 @@
 
         /* ACTION BAR & PENCARIAN */
         .action-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding: 0 20px; /* <-- TAMBAHKAN INI */
-    margin-top: 20px; /* Beri jarak dari header */
-   }
-
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 0 24px;
+            margin-top: 10px;
+        }
 
         .search-container {
             flex: 1;
@@ -155,9 +154,7 @@
             backdrop-filter: blur(4px);
         }
 
-        .search-container input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
+        .search-container input::placeholder { color: rgba(255, 255, 255, 0.6); }
 
         .search-container input:focus {
             background: rgba(255, 255, 255, 0.2);
@@ -223,14 +220,16 @@
         #addNoteBtn { display: none; }
         #addNoteBtn.visible { display: inline-flex; }
 
+        /* NOTES GRID FULL WIDTH */
         .notes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 20px;
             width: 100%;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
+        /* KARTU CATATAN (Bisa di-klik) */
         .note-card {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(6px);
@@ -244,6 +243,7 @@
             color: #f0f6ff;
             position: relative;
             animation: fadeIn 0.35s ease forwards;
+            cursor: pointer; /* Menandakan bisa diklik */
         }
 
         .note-card:hover {
@@ -339,35 +339,6 @@
             border-bottom-color: #c1e0ff;
         }
 
-        .note-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            display: none;
-        }
-
-        .note-actions.visible { display: flex; }
-
-        .btn-small {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            color: #e0edff;
-            transition: all 0.15s;
-        }
-
-        .btn-small:hover { background: rgba(255, 255, 255, 0.25); }
-
-        .btn-danger {
-            background: rgba(220, 80, 80, 0.25);
-            border-color: rgba(255, 120, 120, 0.4);
-        }
-
-        .btn-danger:hover { background: rgba(220, 80, 80, 0.5); }
-
         /* PAGINATION */
         .pagination-container {
             grid-column: 1 / -1;
@@ -404,15 +375,15 @@
             cursor: not-allowed;
         }
 
-        /* Modal & Form */
+        /* MODAL / POP UP */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -424,161 +395,138 @@
 
         .modal {
             background: linear-gradient(145deg, #1f3854, #152b40);
-            border-radius: 28px;
+            border-radius: 24px;
             padding: 30px 28px;
             width: 100%;
-            max-width: 560px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #eef4fc;
             animation: fadeIn 0.25s ease;
+            position: relative;
         }
 
         .modal h2 {
             font-size: 1.6rem;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             font-weight: 600;
             color: #ffffff;
+            padding-right: 30px; /* Ruang untuk tombol close */
         }
 
-        .modal-password {
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .modal-password .lock-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 16px;
-            background: rgba(100, 160, 255, 0.15);
+        /* Tombol Close di pojok pop up */
+        .close-modal-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(120, 180, 255, 0.3);
+            cursor: pointer;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+        .close-modal-btn:hover { background: rgba(255, 100, 100, 0.4); }
+
+        /* Detail Catatan di Pop Up */
+        .detail-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #d6e5f5;
+            margin-bottom: 24px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-height: 40vh;
+            overflow-y: auto;
         }
 
+        .detail-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #b0c9e0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* Form & Auth Modal */
+        .modal-password { max-width: 400px; text-align: center; }
+        .modal-password .lock-icon {
+            width: 64px; height: 64px; margin: 0 auto 16px;
+            background: rgba(100, 160, 255, 0.15); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(120, 180, 255, 0.3);
+        }
         .modal-password .lock-icon svg { width: 30px; height: 30px; fill: #8dc9ff; }
         .modal-password h2 { text-align: center; font-size: 1.35rem; margin-bottom: 8px; }
         .modal-password p { text-align: center; font-size: 0.88rem; opacity: 0.75; margin-bottom: 22px; }
 
         .password-input-wrap { position: relative; }
-
         .password-input-wrap input {
-            width: 100%;
-            padding: 14px 48px 14px 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.07);
-            color: #ffffff;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s, background 0.2s;
-            letter-spacing: 2px;
-            text-align: center;
+            width: 100%; padding: 14px 48px 14px 16px; border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.07);
+            color: #ffffff; font-size: 1rem; outline: none; transition: border 0.2s;
+            letter-spacing: 2px; text-align: center;
         }
-
-        .password-input-wrap input:focus {
-            border-color: #6aa5d9;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
+        .password-input-wrap input:focus { border-color: #6aa5d9; background: rgba(255, 255, 255, 0.12); }
+        
         .toggle-pw {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; padding: 6px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
         }
-
         .toggle-pw:hover { background: rgba(255, 255, 255, 0.1); }
         .toggle-pw svg { width: 20px; height: 20px; fill: #8dc9ff; }
 
-        .pw-error {
-            color: #ff9999;
-            font-size: 0.85rem;
-            margin-top: 12px;
-            min-height: 20px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
+        .pw-error { color: #ff9999; font-size: 0.85rem; margin-top: 12px; min-height: 20px; text-align: center; opacity: 0; transition: opacity 0.2s; }
         .pw-error.show { opacity: 1; }
 
         .form-group { margin-bottom: 18px; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.88rem;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #c5daf0;
-            letter-spacing: 0.3px;
+        .form-group label { display: block; font-size: 0.88rem; font-weight: 500; margin-bottom: 6px; color: #c5daf0; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px 16px; border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.07);
+            color: #ffffff; font-size: 0.95rem; outline: none; transition: border 0.2s; font-family: inherit;
         }
+        .form-group input:focus, .form-group textarea:focus { border-color: #6aa5d9; background: rgba(255, 255, 255, 0.12); }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .char-counter { text-align: right; font-size: 0.75rem; opacity: 0.7; margin-top: 4px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.07);
-            color: #ffffff;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border 0.2s, background 0.2s;
-            font-family: inherit;
+        /* Tombol kecil Edit & Hapus */
+        .btn-small {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; cursor: pointer;
+            color: #e0edff; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
         }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #6aa5d9;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .form-group textarea { min-height: 100px; resize: vertical; }
-
-        .char-counter {
-            text-align: right;
-            font-size: 0.75rem;
-            opacity: 0.7;
-            margin-top: 4px;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .modal-actions .btn { padding: 10px 26px; }
+        .btn-small:hover { background: rgba(255, 255, 255, 0.25); }
+        .btn-danger { background: rgba(220, 80, 80, 0.25); border-color: rgba(255, 120, 120, 0.4); }
+        .btn-danger:hover { background: rgba(220, 80, 80, 0.5); }
 
         .loading, .error-msg {
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 1.1rem;
-            opacity: 0.8;
-            grid-column: 1 / -1;
+            text-align: center; padding: 40px 20px; font-size: 1.1rem; opacity: 0.8; grid-column: 1 / -1;
         }
-
-        .error-msg {
-            color: #ffb3b3;
-            background: rgba(200, 50, 50, 0.2);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 100, 100, 0.3);
-        }
+        .error-msg { color: #ffb3b3; background: rgba(200, 50, 50, 0.2); border-radius: 20px; border: 1px solid rgba(255, 100, 100, 0.3); }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -588,10 +536,14 @@
         @media (max-width: 600px) {
             .header-title h1 { font-size: 1.3rem; }
             .notes-grid { grid-template-columns: 1fr; }
+            .action-bar { padding: 0 16px; }
+            .notes-grid { padding: 0 16px; }
             .modal { padding: 24px 18px; }
             .btn { padding: 8px 16px; font-size: 0.85rem; }
             .admin-badge { display: none !important; }
-            .search-container { width: 100%; order: -1; } /* Pindah search ke atas tombol di HP */
+            .search-container { width: 100%; order: -1; }
+            .detail-actions { flex-direction: column; }
+            .detail-actions .btn-small { justify-content: center; }
         }
     </style>
 </head>
@@ -615,16 +567,14 @@
         </div>
     </header>
 
-    <!-- ACTION BAR (PENCARIAN & TOMBOL) -->
+    <!-- ACTION BAR -->
     <div class="action-bar">
-        <!-- FITUR PENCARIAN -->
         <div class="search-container">
             <svg class="search-icon" viewBox="0 0 24 24">
                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
             </svg>
             <input type="text" id="searchInput" placeholder="Cari judul, isi, atau asal...">
         </div>
-
         <button class="btn btn-primary" id="refreshBtn">
             <span class="btn-icon">
                 <svg viewBox="0 0 24 24"><path d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
@@ -639,13 +589,43 @@
         </button>
     </div>
 
-    <!-- GRID CATATAN & PAGINATION -->
+    <!-- GRID CATATAN -->
     <div class="notes-grid" id="notesGrid">
         <div class="loading">Memuat data...</div>
     </div>
 </div>
 
-<!-- MODAL PASSWORD -->
+<!-- ========================================== -->
+<!-- MODAL 1: POP UP DETAIL CATATAN (TENGAH)    -->
+<!-- ========================================== -->
+<div class="modal-overlay" id="detailOverlay">
+    <div class="modal">
+        <button class="close-modal-btn" id="closeDetailBtn" title="Tutup">✕</button>
+        <h2 id="detailJudul">Judul Catatan</h2>
+        <div class="detail-content" id="detailIsi">Isi catatan...</div>
+        
+        <div class="detail-meta">
+            <div class="note-meta">
+                <span class="note-meta-label">🔗 Link Sumber:</span>
+                <a href="#" id="detailLink" target="_blank" class="note-link">-</a>
+            </div>
+            <div class="note-meta">
+                <span class="note-meta-label">📌 Asal Informasi:</span>
+                <span id="detailAsal">-</span>
+            </div>
+        </div>
+
+        <!-- Tombol aksi (hanya tampil jika admin) -->
+        <div class="detail-actions" id="detailActions" style="display: none;">
+            <button class="btn-small" id="editFromDetailBtn">✏️ Edit Catatan</button>
+            <button class="btn-small btn-danger" id="deleteFromDetailBtn">🗑️ Hapus</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL 2: PASSWORD ADMIN                    -->
+<!-- ========================================== -->
 <div class="modal-overlay" id="passwordOverlay">
     <div class="modal modal-password">
         <div class="lock-icon">
@@ -671,8 +651,10 @@
     </div>
 </div>
 
-<!-- MODAL FORM CATATAN -->
-<div class="modal-overlay" id="modalOverlay">
+<!-- ========================================== -->
+<!-- MODAL 3: FORM TAMBAH/EDIT CATATAN          -->
+<!-- ========================================== -->
+<div class="modal-overlay" id="formOverlay">
     <div class="modal">
         <h2 id="modalTitle">Tambah Catatan Baru</h2>
         <form id="noteForm">
@@ -695,7 +677,7 @@
                 <input type="text" id="asal" placeholder="Contoh: Grup WA, Telegram, Email" maxlength="100">
             </div>
             <div class="modal-actions">
-                <button type="button" class="btn" id="cancelBtn">Batal</button>
+                <button type="button" class="btn" id="cancelFormBtn">Batal</button>
                 <button type="submit" class="btn btn-primary" id="saveBtn">Simpan</button>
             </div>
         </form>
@@ -713,20 +695,29 @@
     // ============================================================
     // STATE
     // ============================================================
-    let notesData = [];       // Data asli dari server
-    let filteredData = [];    // Data setelah difilter (pencarian)
+    let notesData = [];       
+    let filteredData = [];    
     let isEditing = false;
     let isAdmin = sessionStorage.getItem(SESSION_KEY) === 'true';
-    
-    // State Pagination
     let currentPage = 1;
     const notesPerPage = 5; 
+    let activeNoteId = null; 
 
-    // DOM
+    // DOM ELEMENTS
     const notesGrid = document.getElementById('notesGrid');
     const searchInput = document.getElementById('searchInput');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const passwordOverlay = document.getElementById('passwordOverlay');
+    
+    const detailOverlay = document.getElementById('detailOverlay');
+    const detailJudul = document.getElementById('detailJudul');
+    const detailIsi = document.getElementById('detailIsi');
+    const detailLink = document.getElementById('detailLink');
+    const detailAsal = document.getElementById('detailAsal');
+    const detailActions = document.getElementById('detailActions');
+    const closeDetailBtn = document.getElementById('closeDetailBtn');
+    const editFromDetailBtn = document.getElementById('editFromDetailBtn');
+    const deleteFromDetailBtn = document.getElementById('deleteFromDetailBtn');
+
+    const formOverlay = document.getElementById('formOverlay');
     const modalTitle = document.getElementById('modalTitle');
     const noteForm = document.getElementById('noteForm');
     const noteIdInput = document.getElementById('noteId');
@@ -735,11 +726,14 @@
     const linkInput = document.getElementById('link');
     const asalInput = document.getElementById('asal');
     const charCountSpan = document.getElementById('charCount');
+    const cancelFormBtn = document.getElementById('cancelFormBtn');
+
     const secretLogo = document.getElementById('secretLogo');
     const addNoteBtn = document.getElementById('addNoteBtn');
     const refreshBtn = document.getElementById('refreshBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
     const adminBadge = document.getElementById('adminBadge');
+
+    const passwordOverlay = document.getElementById('passwordOverlay');
     const passwordInput = document.getElementById('passwordInput');
     const pwError = document.getElementById('pwError');
     const submitPwBtn = document.getElementById('submitPwBtn');
@@ -756,15 +750,14 @@
             adminBadge.classList.add('show');
             secretLogo.classList.add('unlocked');
             addNoteBtn.classList.add('visible');
+            detailActions.style.display = 'flex'; 
         } else {
             sessionStorage.removeItem(SESSION_KEY);
             adminBadge.classList.remove('show');
             secretLogo.classList.remove('unlocked');
             addNoteBtn.classList.remove('visible');
+            detailActions.style.display = 'none';
         }
-        document.querySelectorAll('.note-actions').forEach(el => {
-            el.classList.toggle('visible', active);
-        });
     }
 
     function openPasswordModal() {
@@ -793,7 +786,7 @@
         if (input === ADMIN_PASSWORD) {
             setAdminMode(true);
             closePasswordModal();
-            renderNotes(); // Render ulang untuk memunculkan tombol edit
+            renderNotes();
         } else {
             pwError.textContent = 'Password salah! Coba lagi.';
             pwError.classList.add('show');
@@ -801,6 +794,59 @@
             passwordInput.focus();
         }
     }
+
+    // ============================================================
+    // DETAIL POP-UP LOGIC
+    // ============================================================
+    window.openDetail = function(id) {
+        const note = notesData.find(n => String(n.id) === String(id));
+        if (!note) return;
+
+        activeNoteId = id; // Simpan ID ke state
+        detailJudul.textContent = note.judul;
+        detailIsi.textContent = note.isi;
+        detailAsal.textContent = note.asal || 'Umum';
+        
+        if (note.link) {
+            detailLink.href = note.link;
+            detailLink.textContent = note.link;
+            detailLink.style.display = 'inline';
+        } else {
+            detailLink.style.display = 'none';
+        }
+
+        detailActions.style.display = isAdmin ? 'flex' : 'none';
+        detailOverlay.classList.add('active');
+    };
+
+    function closeDetail() {
+        detailOverlay.classList.remove('active');
+        // JANGAN hapus activeNoteId di sini jika ingin proses hapus berjalan
+    }
+
+    // Aksi Edit dari dalam Popup
+    editFromDetailBtn.addEventListener('click', () => {
+        if (!activeNoteId) return;
+        const idToEdit = activeNoteId; // Amankan ID
+        closeDetail();
+        const note = notesData.find(n => String(n.id) === String(idToEdit));
+        if (note) openFormModal(note);
+    });
+
+    // Aksi Hapus dari dalam Popup
+    deleteFromDetailBtn.addEventListener('click', () => {
+        if (!activeNoteId) return;
+        if(confirm('Yakin ingin menghapus catatan ini?')) {
+            const idToDelete = activeNoteId; // Amankan ID sebelum popup ditutup
+            closeDetail();
+            executeDelete(idToDelete);       // Panggil fungsi hapus
+        }
+    });
+
+    closeDetailBtn.addEventListener('click', closeDetail);
+    detailOverlay.addEventListener('click', (e) => {
+        if (e.target === detailOverlay) closeDetail();
+    });
 
     // ============================================================
     // FETCH DATA (GET)
@@ -819,11 +865,11 @@
 
     async function fetchNotes() {
         notesGrid.innerHTML = '<div class="loading">Memuat data...</div>';
-        searchInput.value = ''; // Reset pencarian saat refresh
+        searchInput.value = '';
         try {
             if (!SHEET_API_URL || SHEET_API_URL.includes('GANTI_DENGAN_URL')) {
                 notesData = getDemoData();
-                applySearch(); // Jalankan filter (kosong) untuk mengisi filteredData
+                applySearch();
                 return;
             }
             const response = await fetch(SHEET_API_URL);
@@ -833,7 +879,7 @@
             else if (data && data.data) notesData = parseSheetData(data.data);
             else notesData = [];
             
-            applySearch(); // Terapkan pencarian & render
+            applySearch();
         } catch (error) {
             console.error('Error:', error);
             if (notesData.length === 0) {
@@ -852,7 +898,7 @@
             dummy.push({
                 rowIndex: i+1, id: 'demo'+i,
                 judul: 'Catatan Demo ke-' + i,
-                isi: 'Ini adalah isi catatan percobaan ke-' + i + '. Pagination dan pencarian akan bekerja jika data lebih dari 5.',
+                isi: 'Ini adalah isi catatan percobaan ke-' + i + '.\n\nKlik di mana saja pada kotak ini untuk membuka Pop-up.',
                 link: 'https://contoh.com/' + i,
                 asal: i % 2 === 0 ? 'Grup WA' : 'Telegram'
             });
@@ -865,24 +911,21 @@
     // ============================================================
     function applySearch() {
         const keyword = searchInput.value.toLowerCase().trim();
-        
         if (keyword === '') {
-            filteredData = [...notesData]; // Copy semua data jika pencarian kosong
+            filteredData = [...notesData];
         } else {
             filteredData = notesData.filter(note => {
-                const cariDiJudul = note.judul.toLowerCase().includes(keyword);
-                const cariDiIsi = note.isi.toLowerCase().includes(keyword);
-                const cariDiAsal = note.asal.toLowerCase().includes(keyword);
-                return cariDiJudul || cariDiIsi || cariDiAsal;
+                return note.judul.toLowerCase().includes(keyword) ||
+                       note.isi.toLowerCase().includes(keyword) ||
+                       note.asal.toLowerCase().includes(keyword);
             });
         }
-        
-        currentPage = 1; // Reset ke halaman 1 setiap kali mencari
+        currentPage = 1;
         renderNotes();
     }
 
     // ============================================================
-    // SAVE & DELETE (POST)
+    // SAVE & DELETE (BACKEND & FRONTEND)
     // ============================================================
     async function saveNote(noteData) {
         try {
@@ -894,8 +937,8 @@
                     noteData.id = Date.now().toString();
                     notesData.unshift(noteData);
                 }
-                closeModal();
-                applySearch(); // Render ulang dengan filter saat ini
+                closeFormModal();
+                applySearch();
                 return { success: true };
             }
             
@@ -916,22 +959,19 @@
             const result = await response.json();
             if (result.success === false) throw new Error(result.message || 'Gagal menyimpan');
             await fetchNotes();
-            closeModal();
+            closeFormModal();
             return { success: true };
         } catch (error) {
-            console.error(error);
             alert('Gagal menyimpan: ' + error.message);
             return { success: false };
         }
     }
 
-    async function deleteNote(id) {
-        if (!confirm('Yakin ingin menghapus catatan ini?')) return;
+    // NAMA FUNGSI DIGANTI JADI executeDelete AGAR TIDAK BENTROK
+    async function executeDelete(id) {
         try {
             if (!SHEET_API_URL || SHEET_API_URL.includes('GANTI_DENGAN_URL')) {
                 notesData = notesData.filter(n => n.id !== id);
-                const totalPages = Math.ceil(filteredData.length / notesPerPage);
-                if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
                 applySearch();
                 return;
             }
@@ -953,17 +993,15 @@
     // RENDER & PAGINATION LOGIC
     // ============================================================
     function renderNotes() {
-        // Gunakan filteredData (hasil pencarian) bukan notesData asli
         if (!filteredData || filteredData.length === 0) {
             if (searchInput.value.trim() !== '') {
-                notesGrid.innerHTML = '<div class="loading">Pencarian tidak menemukan hasil. Coba kata kunci lain.</div>';
+                notesGrid.innerHTML = '<div class="loading">Pencarian tidak menemukan hasil.</div>';
             } else {
-                notesGrid.innerHTML = '<div class="loading">Belum ada catatan. Klik logo untuk akses admin dan tambahkan catatan.</div>';
+                notesGrid.innerHTML = '<div class="loading">Belum ada catatan.</div>';
             }
             return;
         }
 
-        // Hitung Index
         const totalPages = Math.ceil(filteredData.length / notesPerPage);
         if (currentPage > totalPages) currentPage = totalPages;
         if (currentPage < 1) currentPage = 1;
@@ -972,15 +1010,13 @@
         const endIndex = startIndex + notesPerPage;
         const currentNotes = filteredData.slice(startIndex, endIndex);
 
-        // Render Kartu
         let html = currentNotes.map((note, index) => {
             const linkHtml = note.link
-                ? `<a href="${escapeHtml(note.link)}" target="_blank" rel="noopener noreferrer" class="note-link">${escapeHtml(truncate(note.link, 40))}</a>`
+                ? `<a href="${escapeHtml(note.link)}" target="_blank" rel="noopener noreferrer" class="note-link" onclick="event.stopPropagation()">${escapeHtml(truncate(note.link, 40))}</a>`
                 : '<span style="opacity:0.5;">-</span>';
-            const actionsClass = isAdmin ? 'visible' : '';
             
             return `
-                <div class="note-card" style="animation-delay: ${index * 0.05}s">
+                <div class="note-card" style="animation-delay: ${index * 0.05}s" onclick="openDetail('${escapeHtml(note.id)}')">
                     <div class="note-header">
                         <div class="note-title">${escapeHtml(note.judul)}</div>
                         <div class="note-badge">${escapeHtml(note.asal || 'Umum')}</div>
@@ -991,24 +1027,14 @@
                             <span class="note-meta-label">🔗 Sumber:</span>
                             ${linkHtml}
                         </div>
-                        <div class="note-meta">
-                            <span class="note-meta-label">📌 Asal:</span>
-                            <span>${escapeHtml(note.asal || '-')}</span>
-                        </div>
-                    </div>
-                    <div class="note-actions ${actionsClass}">
-                        <button class="btn-small" onclick="editNote('${escapeHtml(note.id)}')">✏️ Edit</button>
-                        <button class="btn-small btn-danger" onclick="deleteNote('${escapeHtml(note.id)}')">🗑️ Hapus</button>
                     </div>
                 </div>
             `;
         }).join('');
 
-        // Render Pagination
         if (totalPages > 1) {
             html += `<div class="pagination-container">`;
             html += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>« Sebelumnya</button>`;
-            
             for (let i = 1; i <= totalPages; i++) {
                 if (totalPages > 5 && Math.abs(currentPage - i) > 1 && i !== 1 && i !== totalPages) {
                     if (i === 2 || i === totalPages - 1) html += `<span style="color:white; padding:0 5px;">...</span>`;
@@ -1016,7 +1042,6 @@
                 }
                 html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
             }
-            
             html += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Berikutnya »</button>`;
             html += `</div>`;
         }
@@ -1043,9 +1068,9 @@
     }
 
     // ============================================================
-    // MODAL FORM
+    // MODAL FORM TAMBAH/EDIT
     // ============================================================
-    function openModal(note = null) {
+    function openFormModal(note = null) {
         if (!isAdmin) { openPasswordModal(); return; }
         isEditing = !!note;
         modalTitle.textContent = isEditing ? 'Edit Catatan' : 'Tambah Catatan Baru';
@@ -1060,11 +1085,11 @@
             noteIdInput.value = '';
         }
         updateCharCount();
-        modalOverlay.classList.add('active');
+        formOverlay.classList.add('active');
     }
 
-    function closeModal() {
-        modalOverlay.classList.remove('active');
+    function closeFormModal() {
+        formOverlay.classList.remove('active');
         noteForm.reset();
         noteIdInput.value = '';
         isEditing = false;
@@ -1073,17 +1098,6 @@
     function updateCharCount() {
         charCountSpan.textContent = isiInput.value.length;
     }
-
-    window.editNote = function(id) {
-        if (!isAdmin) { openPasswordModal(); return; }
-        const note = notesData.find(n => String(n.id) === String(id));
-        if (note) openModal(note);
-    };
-
-    window.deleteNote = function(id) {
-        if (!isAdmin) { openPasswordModal(); return; }
-        deleteNote(id);
-    };
 
     // ============================================================
     // EVENT LISTENERS
@@ -1099,13 +1113,11 @@
         }
     });
 
-    addNoteBtn.addEventListener('click', () => openModal());
+    addNoteBtn.addEventListener('click', () => openFormModal());
     refreshBtn.addEventListener('click', fetchNotes);
-    cancelBtn.addEventListener('click', closeModal);
+    cancelFormBtn.addEventListener('click', closeFormModal);
 
-    // Listener untuk Pencarian (Ketik langsung memfilter)
     searchInput.addEventListener('input', applySearch);
-
     submitPwBtn.addEventListener('click', submitPassword);
     cancelPwBtn.addEventListener('click', closePasswordModal);
 
@@ -1119,8 +1131,8 @@
         updateEyeIcon(show);
     });
 
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
+    formOverlay.addEventListener('click', (e) => {
+        if (e.target === formOverlay) closeFormModal();
     });
     passwordOverlay.addEventListener('click', (e) => {
         if (e.target === passwordOverlay) closePasswordModal();
